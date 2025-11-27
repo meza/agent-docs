@@ -251,6 +251,11 @@ If work grows beyond original scope, produce a short proposal with impact and ro
 ## Workarounds & Deviations
 Deviations from recommended practices are allowed only when justified. Record workarounds in the Delivery Note with why, risks, mitigation steps, and a revisit timeframe. Prefer the safest, most reversible option when uncertain.
 
+## Documentation Standards
+When you're done, update relevant docs/ files to reflect changes. Use docblocks for public APIs and tests as living documentation. Convert TODOs into entries in docs/technical-debt.md.
+
+For an in-depth documentation guide, refer to https://raw.githubusercontent.com/meza/agent-docs/refs/heads/main/DocumentationGuidelines.md and strive to follow those standards.
+
 ## Self-Audit (final checks)
 Before handoff, record:
 - Tests for primary behavior and at least one failure case.
