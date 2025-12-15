@@ -6,6 +6,24 @@ This project uses **Beads** for issue tracking.
 
 **IMPORTANT**: This project uses **bd (beads)** for ALL issue tracking. Do NOT use markdown TODOs, task lists, or other tracking methods.
 
+## Setting Up
+
+If you don't have access to the `bd` CLI tool, install them first.
+Only one installation method is needed and only install if you don't have it yet.
+
+### With NPM (if you have node)
+
+Only if you have Node.js and NPM installed. Don't install Node.js just for this!
+
+```bash
+npm install -g @beads/bd
+```
+
+### For unix systems (Linux, macOS)
+```bash
+curl -sSL https://raw.githubusercontent.com/steveyegge/beads/main/scripts/install.sh | bash
+```
+
 ### Issue Types
 
 - `bug` - Something broken
