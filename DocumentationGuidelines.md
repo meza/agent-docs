@@ -395,7 +395,8 @@ Use this checklist before presenting documentation. Mark each item Pass or Fail.
 
 ## Formatting and style
 
-* ASCII only. No curly quotes, smart quotes, em dashes, typographic ellipses, or non-breaking spaces.
+* Avoid non-ASCII typography in prose (smart quotes, en-dashes), but don't "sanitize" UI output examples.
+* Keep UX glyphs in code blocks / snapshot-like examples exactly as the app shows them (including arrows, etc.).
 * Markdown only. Headings over bulleted prose where hierarchy exists.
 * Lists used only for true sequences or unordered sets.
 * Code fences for commands and config; backticks for inline literals.
