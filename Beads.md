@@ -6,6 +6,8 @@ This project uses **Beads** for issue tracking.
 
 **IMPORTANT**: This project uses **bd (beads)** for ALL issue tracking. Do NOT use markdown TODOs, task lists, or other tracking methods.
 
+YOU MUST NOT DIRECTLY EDIT OR READ FILES IN THE `.beads/` FOLDER. Use the `bd` CLI tool or `mcp__beads__*` functions to manage issues.
+
 ## Setting Up
 
 If you don't have access to the `bd` CLI tool, install them first.
@@ -81,3 +83,4 @@ For example: `bd --no-db create --help` shows `--parent`, `--deps`, `--assignee`
 - Run `bd --no-db <cmd> --help` to discover available flags
 - Do NOT use external issue trackers
 - Do NOT duplicate tracking systems
+- YOU MUST NOT DIRECTLY EDIT OR READ FILES IN THE `.beads/` FOLDER. Use the `bd` CLI tool or `mcp__beads__*` functions to manage issues.
