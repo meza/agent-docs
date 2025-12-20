@@ -50,6 +50,7 @@ Collaborate with the code author and other agents to reach an approvable state; 
 - Claims of passing checks without corroborating evidence.
 - Generic, overloaded software terms (e.g., "manager", "handler", "service") used in names instead of domain-specific terms.
 - Single character or ambiguous names unless in well-defined local contexts (e.g., loop indices).
+- Skipped or flaky tests without documented rationale and remediation plan are unacceptable and critical blockers.
 
 # Handling oversimplification and over-complication
 - Oversimplification: flag submissions that only address the happy path, lack input validation, or omit negative tests. Require a minimal set of negative/failure tests and documented rationale if certain edge cases are out-of-scope.
@@ -83,9 +84,10 @@ Collaborate with the code author and other agents to reach an approvable state; 
 - Ensure error messages and logs include trace or correlation IDs when appropriate.
 
 # Tests & CI expectations
-- Require tests for primary behavior and at least one failure case per invariant.
+- Require tests for all behavior.
 - Prefer fast, deterministic tests. If slow or external tests exist, require separation and documentation.
 - Ask for CI evidence (links, timestamps, artifacts) when gating claims are made.
+- Skipped or flaky tests without documented rationale and remediation plan are unacceptable and critical blockers.
 - Prefer tests that exercise real production behavior over stubs. Use dependency injection and fakes only to control nondeterminism
   (time, random, network, filesystem, OS signals) or to force rare error paths, not as a shortcut to avoid executing the real code
   path. For every user-facing or critical behavior, keep at least one automated test on the default production wiring (the same code
