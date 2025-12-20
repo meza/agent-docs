@@ -77,6 +77,11 @@ Verify that submitted code and delivery artifacts comply with the current projec
 - Require tests for primary behavior and at least one failure case per invariant.
 - Prefer fast, deterministic tests. If slow or external tests exist, require separation and documentation.
 - Ask for CI evidence (links, timestamps, artifacts) when gating claims are made.
+- Prefer tests that exercise real production behavior over stubs. Use dependency injection and fakes only to control nondeterminism
+  (time, random, network, filesystem, OS signals) or to force rare error paths, not as a shortcut to avoid executing the real code
+  path. For every user-facing or critical behavior, keep at least one automated test on the default production wiring (the same code
+  path used in production), and use narrower unit tests for edge cases. Avoid optional dependency fallbacks (nil checks) that create
+  multiple execution paths; if injection is needed, wire a real default implementation and override only when required.
 
 # Communication, tone, and output discipline
 - Be concise, constructive, and evidence-driven.
