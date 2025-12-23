@@ -1,36 +1,66 @@
-# Long Term Memory
+# Long term Memory Documentation
 
-These instructions are for managing long-term memory in this project.
-If you have specific instructions for issue/task tracking, then only use these instructions for non-issue-related memory.
+If you have any local instructions, skills or similar for memory tracking, follow those instead of these generic instructions.
 
-## Why Long-Term Memory?
+## Purpose
 
-You work across multiple sessions. Sometimes you need to pause and return later, or switch contexts. Sometimes the
-work gets interrupted by crashes, other tasks, or simply the need to reflect. Long-term memory helps you maintain continuity across these breaks.
-Think of it as a persistent notebook that captures your evolving understanding, decisions, and open questions of both the project and the team.
+Long-term memory enables continuity across interrupted work sessions. It captures insights that would otherwise be lost when context resets.
 
-### What to Record
-- Insights learned about the project, its architecture, and its dependencies.
-- Your personal understanding of the codebase, the team and its patterns.
-- Deferred questions or assumptions that need validation.
+## What to Document
 
-### What NOT to Record
+- Insights learned about the project, its architecture, and its dependencies
+- Personal understanding of codebases and team patterns
+- Unresolved questions or assumptions needing validation
 
-- Do NOT duplicate information already captured in issue trackers, documentation, or code comments.
-- Details that should be ADRs (Architecture Decision Records) or formal documentation. Use this memory for your personal understanding and open threads only.
+## What to Avoid
 
-## Working Memory Workflow
+- Content belonging in issue trackers or formal documentation
+- Architectural decisions (use ADR skill instead)
+- Information already captured elsewhere in the project
 
-- Maintain session-to-session context in `memory.md` (kept at the repo root).
-- Use the format: `### [YYYY-MM-DD HH:MM] - [memory]` for each entry.
-- You MUST use the operating system's date and time for timestamps, do not fake or invent timestamps.
-- At the start of each session, skim the most recent entries to refresh open threads and outstanding follow-ups.
-- As new facts, decisions, edge cases, or follow-ups emerge, jot them down immediately—do not wait for the session to end.
-- When you pause or wrap up, ensure the latest entry captures what changed, assumptions requiring validation, and concrete next steps or experiments to try.
-- If a note is resolved or obsolete, annotate it inline rather than deleting—future Bob needs the breadcrumb trail.
-- Periodically tidy the notebook by folding fully resolved items into a short “Resolved” summary so open questions remain easy to scan.
-- Keep the tone factual and concise; this notebook is for internal continuity, not user-facing documentation.
-- You may create separate sections for different topics if that helps organization, but keep everything in a single `memory.md` file.
-- Avoid duplicating information already captured in issue trackers or documentation—focus on your personal understanding and open threads.
-- Review and update this memory file at the start and end of each session to ensure it reflects your current state of knowledge and outstanding questions.
-- When wrapping up a task, scan the memory for any entries that can be expunged or consolidated to keep it relevant and focused.
+## File Location
+
+Store all entries in `memory.tsv` at the repository root.
+
+## Reading the Memory File
+
+**CRITICAL: The memory file cannot be read in one operation.**
+
+The memory file grows over time and will exceed single-read limits. You MUST read it in chunks.
+
+**Reading strategy:**
+
+1. Start by reading the END of the file first (most recent entries are at the bottom)
+2. Use offset and limit parameters to read manageable chunks (500-1000 lines)
+3. Work backwards from the end to find recent context
+4. For session start, the last 500-1000 lines typically contain sufficient recent context
+
+**Example approach:**
+
+- First read: offset from end, limit 500 lines (gets most recent entries)
+- If more context needed: read the preceding chunk
+- Continue as necessary based on the task at hand
+
+**Never assume the file is small enough for a single read.** Always use chunked reading.
+
+## Entry Format
+
+Use the actual system timestamp when creating entries.
+Keep entries to a single TSV row. Do not add blank lines.
+Do not include tab characters in the entry column (replace with spaces).
+
+## Session Practices
+
+**At session start**: Review recent entries to reestablish context.
+
+**During work**: Log insights immediately as they emerge. Do not postpone.
+
+**At session end**: Capture what changed, assumptions to validate, and next steps.
+
+**For resolved items**: Prefix the entry text with [RESOLVED] rather than deleting.
+
+**Periodically**: Consolidate completed work and expunge fully resolved items to keep open questions scannable.
+
+## Tone
+
+Keep entries factual and concise. This is internal continuity documentation, not external communication.
