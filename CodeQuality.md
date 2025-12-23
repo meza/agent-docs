@@ -1,10 +1,6 @@
-# Good Quality Code
+# Code Quality Framework
 
-## Purpose
-
-This describes the intrinsic qualities that distinguish good code. It provides a reasoning framework for recognizing these qualities when reading code and aspiring to them when writing code. These qualities apply across languages and platforms.
-
----
+Below is the detailed code-quality framework that underpins the review process. If you have a code-quality skill, use that as the primary authority for quality standards.
 
 ## Readability
 
