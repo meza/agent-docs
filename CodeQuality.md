@@ -12,6 +12,12 @@ Good code communicates its intent to human readers. A developer encountering the
 
 Names are domain-specific and descriptive. A name communicates what something is or does without requiring the reader to trace through implementation. Where a generic term like "manager" or "handler" might appear, a domain-specific term that conveys actual meaning appears instead. Single-character names appear only in tightly scoped contexts like loop indices where their meaning is unambiguous.
 
+#### Domain Types Over Primitives
+
+Primitives are cheap but ambiguous. They push validation and invariants into many call sites and make illegal states easy to create. They erase meaning, so readers have to infer intent from surrounding context and scattered checks.
+
+Repeated validation and repeated naming qualifiers signal that a domain concept is missing. Important values deserve a dedicated representation so meaning travels with the data and invariants have a single home.
+
 #### Domain-Aligned Structure
 
 Code organization reflects the problem domain. Concepts that belong together live together. Boundaries between domains are clear. The structure makes navigation intuitive because it mirrors how domain experts think about the problem.
@@ -29,6 +35,12 @@ The simplest approach that solves the problem is preferred. Clever solutions giv
 #### Earned Abstractions
 
 Abstractions emerge from demonstrated, repeated need. An abstraction exists because multiple concrete use-cases demanded it, not because someone imagined future use-cases might. Three similar implementations coexist comfortably until the pattern is clear; premature unification is more costly than temporary duplication.
+
+#### Avoid Flag Arguments
+
+When an API takes a boolean that meaningfully changes behavior, it often smuggles two responsibilities into one surface. It increases branching, multiplies test matrices, and encourages scattered conditional logic in callers. It forces readers to keep multiple modes in their head and makes call sites harder to scan because intent is encoded as true or false.
+
+A flag argument is often a sign of a missing concept. Distinct behaviors deserve explicit names, separate entry points, or richer configuration with meaningful fields so callers express intent rather than control flow.
 
 #### Small Surfaces
 
@@ -48,6 +60,12 @@ Configuration comes from outside the code—environment, files, parameters—not
 
 When state exists, its scope and lifecycle are clear. Global mutable state is absent or explicitly isolated. Data flows through parameters and return values. Side effects are visible in function signatures or naming conventions.
 
+#### No Action at a Distance
+
+Hidden side effects and implicit coupling create action at a distance. They produce order dependence, surprising interactions, and fragile tests that must recreate hidden setup. They prevent local reasoning because a reader has to search outside the current scope to understand what a call really does.
+
+Local reasoning is a first-class design goal. Dependencies and side effects are obvious in interfaces and naming, and explicit data flow is preferred over hidden mutation.
+
 #### Visible Assumptions
 
 When code depends on conditions it cannot verify—environmental constraints, upstream guarantees, timing assumptions—those assumptions are stated. The reader knows what must be true for the code to work correctly.
@@ -57,6 +75,12 @@ When code depends on conditions it cannot verify—environmental constraints, up
 #### Consistent APIs
 
 Public interfaces follow consistent patterns. Similar operations have similar signatures. Naming conventions are uniform. A developer who learns one part of the API can predict how other parts behave.
+
+#### Non-Leaky Abstractions
+
+An abstraction should let consumers operate in its concepts, not in its internals. Leakage shows up when callers must reproduce internal rules, handle internal failure modes directly, or coordinate internal lifecycles. It breaks trust: readers cannot predict behavior from the interface, so they read implementation and tests to feel safe.
+
+Consumer workarounds signal that the contract is wrong. Translation and policy belong at the abstraction boundary, invariants stay inside the owner, and the surface is designed so typical usage reads as intent rather than ceremony.
 
 #### Versioned Contracts
 
@@ -96,11 +120,25 @@ Given the same inputs in the same state, the code produces the same outputs. Ran
 
 When behavior must vary—due to randomness, time, or external factors—this is explicit in the interface. The sources of variation are visible and can be controlled for testing.
 
+#### Avoid Temporal Coupling
+
+When correctness depends on doing things in a particular order, the system has hidden state transitions. This creates invalid intermediate states, race-prone behavior, and brittle tests that over-specify sequencing. It burdens reviewers and maintainers with remembering an implicit protocol.
+
+State transitions are explicit. Valid states are encoded in structure, sequences are collapsed into single operations where possible, and required preconditions fail fast.
+
 ### Testing Philosophy
 
 #### Tests Map to Behavior
 
 Each significant behavior has at least one test that would fail if the behavior changed. Tests document what the code promises. The connection between behavior and test is traceable.
+
+#### Tests Avoid Duplication
+
+Test duplication across packages is often a design smell. When the same condition or rule is asserted repeatedly in many files, it usually means shared behavior is scattered across the codebase.
+
+Prefer extracting the behavior into a shared helper or clearer API and verifying it once at the right boundary. This reduces test noise, preserves readability, and avoids shotgun-surgery updates when the rule changes. Do not over-abstract: extract only when the rule is truly shared and stable; otherwise keep tests local and tolerate small duplication.
+
+Widespread test duplication is a symptom, not a goal. When tests are forced to re-state the same rule in many places, the problem is usually that the behavior lacks a single, readable owner.
 
 #### Tests Precede Implementation
 
@@ -301,6 +339,12 @@ Modules depend on each other through narrow, stable interfaces. Changes to one m
 #### Localized Changes
 
 Changing one behavior does not require changes scattered across the codebase. Related code lives together. Coupling between distant parts is minimal. A change's blast radius is predictable.
+
+#### Single Owner for Shared Rules
+
+When a rule exists, it should have an owner. Scattering a rule across modules increases change blast radius and encourages inconsistent behavior. It turns simple changes into hunts and makes developers hesitant to modify code because they cannot see what else they might break.
+
+Scattered rule checks and repeated conditionals signal that the behavior is under-owned. The rule has a natural home, and other code depends on that single expression of truth rather than re-stating it.
 
 #### Incremental Evolution
 
