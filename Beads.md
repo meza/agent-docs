@@ -6,7 +6,20 @@ This project uses **Beads** for issue tracking.
 
 **IMPORTANT**: This project uses **bd (beads)** for ALL issue tracking. Do NOT use markdown TODOs, task lists, or other tracking methods.
 
-YOU MUST NOT DIRECTLY EDIT OR READ FILES IN THE `.beads/` FOLDER. Use the `bd` CLI tool or `mcp__beads__*` functions to manage issues.
+YOU MUST NOT DIRECTLY EDIT OR READ FILES IN THE `.beads` FOLDER. Use the `bd` CLI tool to manage issues.
+
+## Stable Interface (Text Output Only)
+
+The `bd` CLI's default text output is the stable interface.
+
+- Do NOT use `--json`, `--format`, or any flag that changes output format.
+- Do NOT pipe Beads output to `jq`, `sed`, `awk`, or other transformation tools.
+- Do NOT read or grep files under `.beads` (including `.issues.jsonl`); the on-disk format is not stable and may be mid-sync.
+
+If you need issue data, use:
+- `bd --no-db list`
+- `bd --no-db ready`
+- `bd --no-db show <id>`
 
 ## Parent/Child Semantics (Imperative)
 
@@ -81,23 +94,67 @@ bd automatically syncs with git:
 - Imports from JSONL when newer (e.g., after `git pull`)
 - No manual export/import needed!
 
-### Tool functions (Recommended)
-
-If you have access to `mcp__beads__*` functions, those are preferred over the CLI commands.
-
 ### CLI Help
 
 Run `bd --no-db <command> --help` to see all available flags for any command.
 For example: `bd --no-db create --help` shows `--parent`, `--deps`, `--assignee`, etc.
 
+### Quick Reference
+
+#### Common Commands
+
+```bash
+bd --no-db list
+bd --no-db ready
+bd --no-db show <id>
+bd --no-db update <id> --status in_progress
+bd --no-db close <id> --reason "Done"
+```
+
+#### Dependencies
+
+- Dependency direction is always: `<issue-id>` depends on `<depends-on-id>`.
+- Default dependency type is `blocks`.
+- Use `--parent` for hierarchy. Do NOT use `--type parent-child` as a substitute for blocking.
+
+```bash
+# Add a blocking dependency (depends-on blocks issue)
+bd --no-db dep add <issue-id> <depends-on-id> --type blocks
+
+# Other dependency types
+bd --no-db dep add <issue-id> <other-id> --type related
+bd --no-db dep add <new-id> <source-id> --type discovered-from
+
+# Inspect dependencies
+bd --no-db dep tree <issue-id>
+bd --no-db dep cycles
+```
+
+#### Issue Fields
+
+```bash
+bd --no-db update <id> --description "..."
+bd --no-db update <id> --notes "..."
+bd --no-db update <id> --design "..."
+bd --no-db update <id> --acceptance "..."
+```
+
+#### Comments
+
+```bash
+bd --no-db comments <id>
+bd --no-db comments add <id> "comment text"
+```
+
 ### Important Rules
 
 - Use bd for ALL task tracking
-- Always use the `--no-db --json` flags for programmatic use
+- When running as an automated agent, always include `--no-db`
+- Do NOT use `--json` output or parse/transform Beads output
 - For parent/child work: ALWAYS block the parent on each child (`bd --no-db dep add <parent-id> <child-id> --type blocks`)
 - `discovered-from` is provenance-only and MUST NOT be relied on as a blocker
 - Check `bd --no-db ready` before asking "what should I work on?"
 - Run `bd --no-db <cmd> --help` to discover available flags
 - Do NOT use external issue trackers
 - Do NOT duplicate tracking systems
-- YOU MUST NOT DIRECTLY EDIT OR READ FILES IN THE `.beads/` FOLDER. Use the `bd` CLI tool or `mcp__beads__*` functions to manage issues.
+- YOU MUST NOT DIRECTLY EDIT OR READ FILES IN THE `.beads/` FOLDER. Use the `bd` CLI tool to manage issues.
