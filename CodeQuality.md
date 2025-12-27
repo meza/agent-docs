@@ -36,6 +36,87 @@ Docblocks for non-trivial public APIs must describe what an implementer needs to
 
 Docblocks are not required for trivial public declarations where the name and signature fully convey meaning and there is no additional contract to understand (for example: simple enums, newtypes, or constants with no special constraints beyond their type).
 
+##### How to spot "trivial"
+
+A public API is trivial when all of the following are true:
+- The name and signature make correct usage obvious without reading implementation.
+- It is small: variable declarations, short functions, and other small units whose behavior is obvious at a glance.
+- It has at most one simple conditional (no multi-branch logic and no nested conditionals).
+- There are no side effects beyond the returned value (no I/O, no logging, no global state, no caching/lazy init).
+- There are no special error modes, fallback behaviors, or mode switches.
+- There are no ordering, lifecycle, or concurrency requirements.
+- There are no surprising constraints, security implications, or sharp edges.
+
+Examples of usually-trivial public declarations:
+- Simple enums or "mode" types where the meaning is obvious from the type name and constants.
+- Newtypes that exist only to add meaning to a primitive and do not add behavior.
+
+##### How to spot "non-trivial"
+
+Assume a public API is non-trivial (and therefore needs a docblock) if any of the following apply:
+- It is longer than a few lines, has multiple branches, or has nested conditionals (this is a strong signal, but not sufficient by itself: if the name/signature still fully conveys correct usage and there is no extra contract, it may still be trivial).
+- It has multiple modes of operation (including test/debug mode, env-var toggles, feature flags, or configuration-driven behavior).
+- It has fallback behavior that callers will depend on (especially "deterministic fallback" for tests).
+- It can fail in more than one way, returns sentinel values, or has nuanced error handling.
+- It performs lazy initialization, caching, memoization, or any hidden statefulness.
+- It has concurrency or ordering constraints (thread-safe vs not, reentrancy, idempotency, call-before-use rules).
+- It interprets data formats, templates, or performs localization/serialization (callers need to know where data lives and how it is shaped).
+- Correct usage requires a specific calling pattern that is not obvious from the signature (for example: optional argument objects, allowed combinations, or forbidden combinations).
+
+##### What "good" docblocks look like
+
+For non-trivial public APIs, "good" is a docblock that lets a reader use the API correctly and safely without reading the implementation. A good docblock:
+- Starts with a one-sentence summary in plain language.
+- Explains why the API exists (rationale), not just what it does.
+- Defines the contract in concrete terms: inputs, outputs, invariants, side effects, and error cases.
+- Calls out any mode switches and their trigger (config/env var/etc) and what changes in each mode.
+- Documents fallback behavior explicitly, including when and why it happens.
+- States concurrency/ordering guarantees explicitly (for example: "safe for concurrent use" or "call once at startup").
+- Includes examples when the API is easy to misuse or when the contract includes nuance.
+
+##### Anti-pattern: thin docblocks
+
+These are not sufficient for non-trivial public APIs:
+- Repeating the function name in English.
+- "Safe for concurrent use" with no contract detail when concurrency affects the observable behavior.
+- Mentioning a special mode or fallback without explaining when it triggers and what callers can rely on.
+
+##### Docblock structure template (for non-trivial public APIs)
+
+Use this structure when it fits, and expand as needed:
+- Summary: what it does.
+- Why: why it exists and when to use it.
+- Contract: what it guarantees (and what it does not).
+- Inputs/outputs: expected inputs, return shape, and error behavior.
+- Modes/fallbacks: test/debug/config switches and deterministic fallback behavior.
+- Concurrency/ordering: thread-safety and lifecycle rules.
+- Examples: minimal examples showing correct usage (especially for optional args, templates, or variable maps).
+
+##### Example: acceptable vs insufficient
+
+Trivial declarations may be self-explanatory. A one-line comment is fine, but not required:
+
+```
+// ColorMode controls whether ANSI color output is enabled.
+type ColorMode int
+```
+
+For non-trivial public APIs, avoid thin comments and prefer a contract-oriented docblock that explains how to use it safely:
+
+```
+// DoThing does X for Y.
+// Use it when you need <why>.
+//
+// Contract:
+// - Guarantees: <what it guarantees>
+// - Side effects: <what it touches>
+// - Errors/fallbacks: <when it fails or falls back, and what callers can rely on>
+// - Concurrency: <thread-safe or not, and any ordering requirements>
+//
+// Examples:
+//   out := DoThing("key", DoThingOpts{Mode: ModeTest})
+```
+
 ### Simplicity
 
 #### Minimal Solutions
