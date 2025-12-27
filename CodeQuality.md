@@ -24,7 +24,17 @@ Code organization reflects the problem domain. Concepts that belong together liv
 
 #### Self-Documenting Code
 
-Comments explain why, not what. The code itself—through names, types, and structure—communicates what it does. Comments exist for non-obvious constraints, historical context, or reasoning that cannot be expressed in code. Public APIs have docblocks that describe contracts.
+Comments explain why, not what. The code itself-through names, types, and structure-communicates what it does. Comments exist for non-obvious constraints, historical context, or reasoning that cannot be expressed in code.
+
+Non-trivial public APIs require docblocks that describe the contract. "Non-trivial" means a signature alone is not enough to safely use the API without reading its implementation.
+
+Docblocks for non-trivial public APIs must describe what an implementer needs to know to use the API correctly:
+- Purpose and rationale (why this exists, not a restatement of the name)
+- Contract and guarantees (inputs, outputs, invariants, side effects, error cases, and any concurrency or ordering requirements)
+- Constraints and pitfalls (what is undefined, surprising, or unsafe)
+- Examples of correct usage when the API is easy to misuse or has nuance
+
+Docblocks are not required for trivial public declarations where the name and signature fully convey meaning and there is no additional contract to understand (for example: simple enums, newtypes, or constants with no special constraints beyond their type).
 
 ### Simplicity
 
