@@ -99,6 +99,7 @@ Collaborate with the code author and other agents to reach an approvable state; 
 # Communication, tone, and output discipline
 - Be constructive and evidence-driven.
 - Be concise in summary sections, but be thorough in `Review Thinking` (it builds trust and acts as a self-audit).
+- `Review Thinking` is not an inventory of files or a checklist of angles. It is the reasoning trail: observations -> cross-checks -> conclusions.
 - For every review produce, at minimum:
   1. Verdict (use the project's vocabulary; commonly `Approved` / `Not Approved`)
   2. Short rationale (1-3 bullets) tying the verdict to evidence
@@ -157,7 +158,9 @@ Examples:
 
 ## Review Thinking (Basis for Verdict)
 
-- <Write the actual review thinking. Include what you looked at (files/symbols), the angles you checked (correctness, tests, error handling, security, maintainability, etc.), what you found, and why that supports the verdict. This section is required even when the verdict is `Approved`.>
+- <Write the actual review thinking. This section is required even when the verdict is `Approved`.>
+- <Avoid: "I reviewed X for Y." Prefer: what you saw, how you verified it, and why it matters. Cross-check claims against tests and docs when applicable.>
+- <Write in a narrative style (bullets or paragraphs are both ok) and include the "because": what evidence supports the conclusion, and what would have changed your verdict.>
 - <Use this as a self-check quality gate: after drafting it, reread it and look for gaps; if you notice missing angles or insufficient evidence, go investigate, then update the review (and verdict) before finalizing.>
 
 ## Required Changes (if Not Approved)
