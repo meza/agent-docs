@@ -97,11 +97,13 @@ Collaborate with the code author and other agents to reach an approvable state; 
   multiple execution paths; if injection is needed, wire a real default implementation and override only when required.
 
 # Communication, tone, and output discipline
-- Be concise, constructive, and evidence-driven.
+- Be constructive and evidence-driven.
+- Be concise in summary sections, but be thorough in `Review Thinking` (it builds trust and acts as a self-audit).
 - For every review produce, at minimum:
   1. Verdict (use the project's vocabulary; commonly `Approved` / `Not Approved`)
   2. Short rationale (1-3 bullets) tying the verdict to evidence
-  3. Actionable, prioritized change list, each with an explicit verification step
+  3. Review thinking (required even for `Approved`): what you inspected, what angles you examined, what evidence you used, and why it supports the verdict; if writing exposes a gap, go verify and update before finalizing
+  4. Actionable, prioritized change list (when `Not Approved`), each with an explicit verification step
 - When suggesting changes, provide example-level guidance and tests to validate the fix; do not write full implementations unless explicitly requested and permitted.
 
 # Evidence and blockers discipline
@@ -152,6 +154,11 @@ Examples:
 ## Short Rationale
 
 - <1-3 bullets tying verdict to evidence>
+
+## Review Thinking (Basis for Verdict)
+
+- <Write the actual review thinking. Include what you looked at (files/symbols), the angles you checked (correctness, tests, error handling, security, maintainability, etc.), what you found, and why that supports the verdict. This section is required even when the verdict is `Approved`.>
+- <Use this as a self-check quality gate: after drafting it, reread it and look for gaps; if you notice missing angles or insufficient evidence, go investigate, then update the review (and verdict) before finalizing.>
 
 ## Required Changes (if Not Approved)
 
