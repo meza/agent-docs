@@ -26,12 +26,14 @@ If you need issue data, use:
 Any clustering/grouping MUST preserve causality: a parent issue MUST NOT be considered ready or done while any of its children are still open.
 
 In Beads, dependency direction matters:
-- `bd --no-db dep add <issue-id> <depends-on-id> --type blocks` means `<depends-on-id>` blocks `<issue-id>`.
+- `bd --no-db dep add <blocked-id> <blocker-id> --type blocks` means `<blocker-id>` blocks `<blocked-id>` (`<blocker-id> -> <blocked-id>`).
 - For parent/child work, the parent MUST be blocked by each child (not the other way around).
 
-Required pattern for child tickets:
+Required pattern for child tickets (mapping: `blocked-id = parent-id`, `blocker-id = child-id`):
 1. Create the child under the parent: `bd --no-db create "Child title" --parent <parent-id>`
 2. Make the parent blocked by the child: `bd --no-db dep add <parent-id> <child-id> --type blocks`
+3. If unsure, verify: `bd --no-db dep tree <parent-id>` should show the child blocking the parent
+4. WRONG: `bd --no-db dep add <child-id> <parent-id> --type blocks` (this makes the child blocked by the parent)
 
 Optional: provenance-only discovery links may use `discovered-from:<id>`, but `discovered-from` MUST NOT be relied on to block work.
 
@@ -76,7 +78,7 @@ curl -sSL https://raw.githubusercontent.com/steveyegge/beads/main/scripts/instal
 3. **Work on it**: Implement, test, document
 4. **Discover new work under an issue?** Create a child, then block the parent:
    - Create child: `bd --no-db create "Found bug" -p 1 --parent <parent-id>`
-   - Block parent on child: `bd --no-db dep add <parent-id> <child-id> --type blocks`
+   - Block parent (blocked) on child (blocker): `bd --no-db dep add <parent-id> <child-id> --type blocks`
 5. **Complete**: `bd --no-db close <id> --reason "Done"`
 
 #### Completion Criteria
@@ -113,17 +115,17 @@ bd --no-db close <id> --reason "Done"
 
 #### Dependencies
 
-- Dependency direction is always: `<issue-id>` depends on `<depends-on-id>`.
+- For blocking dependencies (`--type blocks`): `<blocked-id>` is blocked by `<blocker-id>` (`<blocker-id> -> <blocked-id>`).
 - Default dependency type is `blocks`.
 - Use `--parent` for hierarchy. Do NOT use `--type parent-child` as a substitute for blocking.
 
 ```bash
-# Add a blocking dependency (depends-on blocks issue)
-bd --no-db dep add <issue-id> <depends-on-id> --type blocks
+# Add a blocking dependency (blocker blocks blocked)
+bd --no-db dep add <blocked-id> <blocker-id> --type blocks
 
 # Other dependency types
-bd --no-db dep add <issue-id> <other-id> --type related
-bd --no-db dep add <new-id> <source-id> --type discovered-from
+bd --no-db dep add <from-id> <to-id> --type related
+bd --no-db dep add <from-id> <to-id> --type discovered-from
 
 # Inspect dependencies
 bd --no-db dep tree <issue-id>
