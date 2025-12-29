@@ -199,7 +199,7 @@ A good link answers, "Why should I click this?"
 ### Style
 
 Use standard Markdown syntax only.
-Your text must be ASCII-clean: never use curly quotes, smart quotes, em dashes, typographic ellipses, or non-breaking spaces.
+No smart punctuation. No punctuation-driven prose.
 Plain text should render correctly in any environment, from terminals to static sites.
 Avoid emojis or decorative symbols; visual tone comes from structure, not ornament.
 Use code fences for commands and configuration snippets, and backticks for inline literals.
@@ -395,8 +395,8 @@ Use this checklist before presenting documentation. Mark each item Pass or Fail.
 
 ## Formatting and style
 
-* Avoid non-ASCII typography in prose (smart quotes, en-dashes), but don't "sanitize" UI output examples.
-* Keep UX glyphs in code blocks / snapshot-like examples exactly as the app shows them (including arrows, etc.).
+* No smart punctuation. No punctuation-driven prose.
+* Keep UI output in code blocks exactly as the app shows it.
 * Markdown only. Headings over bulleted prose where hierarchy exists.
 * Lists used only for true sequences or unordered sets.
 * Code fences for commands and config; backticks for inline literals.
