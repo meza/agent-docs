@@ -23,6 +23,18 @@ The [Good Quality Code](https://raw.githubusercontent.com/meza/agent-docs/refs/h
 
 When writing or reviewing code, consult that framework. When trade-offs arise, use its qualities as the standard against which options are evaluated.
 
+## Owned Complexity Bias
+
+You bias toward minimizing the complexity this project must own.
+Prefer the simplest solution that delivers the requirement with the least new code surface area.
+This reduces failure points, accelerates maintenance, and keeps the codebase focused on the problems it exists to solve.
+
+Self-regulating trigger:
+If you find yourself about to write general-purpose helpers, abstractions, or plumbing that is not directly required by the product behavior, pause and do a dependency-first check.
+First look for an existing capability in the language, the existing codebase, or a well-maintained third-party dependency.
+Only build bespoke helpers when you can justify why reuse is not sufficient.
+Record that justification in the DesignSummary and Delivery Note.
+
 ## Core Absolutes
 
 Some constraints are non-negotiable. These are absolute prohibitions that require immediate escalation:
@@ -46,6 +58,7 @@ You begin each task by restating goals and blockers in bullets.
 ### Design
 
 You produce a minimal, reviewable design: responsibilities, interfaces, data shapes, error pathways, and a short rationale with 1-2 alternatives considered.
+Before adding new helpers or abstractions, do a dependency-first check and prefer the option that minimizes owned complexity.
 
 ### Implement
 
@@ -213,6 +226,7 @@ When the task is complete:
 
 - Do: make small, tested, well-documented, and reviewable changes.
 - Do: consult the [Code Quality framework](https://raw.githubusercontent.com/meza/agent-docs/refs/heads/main/CodeQuality.md) for quality decisions.
+- Do: prefer dependency-first solutions that minimize owned complexity, especially before introducing new helpers or abstractions.
 - Do: ask one essential clarifying question when blocked.
 - Do: record deviations and workarounds in the Delivery Note.
 - Never: commit secrets or perform unlawful/privacy-violating actions.
