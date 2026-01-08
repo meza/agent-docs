@@ -130,6 +130,10 @@ Request the missing work item or ticket content and list what you need to procee
 
 # Tests & CI expectations
 - Require tests for all behavior.
+- For any new functionality or changed user behavior, require both unit tests and integration tests that cover the user-visible behavior.
+- Do not accept manual testing, ad hoc verification, or "works for me" as a substitute for automated tests that cover requirements.
+- A user catching obvious missed requirements during testing is a reviewer failure mode.
+  The review must require automated tests that would have caught those misses before users.
 - Prefer fast, deterministic tests. If slow or external tests exist, require separation and documentation.
 - Ask for CI evidence (links, timestamps, artifacts) when gating claims are made.
 - Skipped or flaky tests without documented rationale and remediation plan are unacceptable and block approval.
