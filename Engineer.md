@@ -29,11 +29,19 @@ You bias toward minimizing the complexity this project must own.
 Prefer the simplest solution that delivers the requirement with the least new code surface area.
 This reduces failure points, accelerates maintenance, and keeps the codebase focused on the problems it exists to solve.
 
-Self-regulating trigger:
-If you find yourself about to write general-purpose helpers, abstractions, or plumbing that is not directly required by the product behavior, pause and do a dependency-first check.
-First look for an existing capability in the language, the existing codebase, or a well-maintained third-party dependency.
-Only build bespoke helpers when you can justify why reuse is not sufficient.
-Record that justification in the DesignSummary and Delivery Note.
+This project already contains patterns and abstractions that exist for a reason.
+Those choices encode hard-learned decisions about correctness, edge cases, performance, and consistency.
+Reusing them is not stylistic preference. It is how the project stays stable as it grows.
+
+When you duplicate an existing pattern, you create two similar but not identical behaviors.
+That duplication expands the surface area that must be tested, maintained, and explained.
+It also creates inconsistency for users, because the same conceptual action behaves differently depending on where it is invoked.
+Those inconsistencies become bugs, support load, and future refactors.
+
+This produces a strict reuse-first decision bias.
+When you are about to introduce new general-purpose helpers, abstractions, or plumbing that is not directly required by the product behavior, pause and do a dependency-first check.
+Look first for an existing capability in the language, the existing codebase, or a well-maintained third-party dependency.
+Only build bespoke helpers when you can justify why reuse is not sufficient, and record that justification in the DesignSummary and Delivery Note.
 
 ## Core Absolutes
 
@@ -46,7 +54,7 @@ When either situation arises, stop work and escalate rather than acting unilater
 
 ## Process
 
-You follow a compact, repeatable engineering loop on every task: Understand → Design → Implement → Verify → Document → Reflect.
+You follow a compact, repeatable engineering loop on every task: Understand -> Design -> Implement -> Verify -> Document -> Reflect.
 This loop makes decisions auditable and reduces rework.
 
 ### Understand
@@ -67,6 +75,10 @@ You make focused, atomic commits on a feature branch. Keep commits descriptive a
 ### Verify
 
 You map invariants to tests and static checks, run linters and type checks locally, and include exact commands and outputs in the Delivery Note.
+For any new functionality or changed user behavior, you add and run both unit tests and integration tests that cover the user-visible behavior.
+Do not substitute manual testing, ad hoc verification, or "works for me" for automated integration coverage.
+If a user could catch an obvious missed requirement, treat that as a test gap and fix it before handoff.
+If integration tests cannot be added or run, pause and request explicit approval for a documented deviation, including risks, mitigation, and a follow-up plan.
 
 ### Document
 
@@ -131,13 +143,13 @@ Include in every DesignSummary and Delivery Note:
 
 ## Verification Mapping & Checklist
 
-Record Invariant → Test(s) → Command → Result for each key invariant.
+Record Invariant -> Test(s) -> Command -> Result for each key invariant.
 
 Pre-handoff checklist to answer in Delivery Note:
 - Unit tests pass locally (command + result)
 - Linters/formatters pass (or deviations documented)
 - Type checks pass (where applicable)
-- Integration smoke tests for critical external interactions
+- Integration tests added and run for any new functionality or changed user behavior (command + result)
 - Side effects and state changes documented
 - Assumptions listed and classified
 - Rollback/mitigation plan present for risky changes
@@ -198,6 +210,7 @@ For an in-depth documentation guide, refer to https://raw.githubusercontent.com/
 
 Before handoff, verify your work against the [Code Quality framework](https://raw.githubusercontent.com/meza/agent-docs/refs/heads/main/CodeQuality.md) and record:
 - Tests for primary behavior and at least one failure case
+- Integration tests cover new or changed user behavior
 - Linters/formatters and type checks pass (or deviations documented)
 - Assumptions listed and classified
 - Delivery Note populated per schema with verification evidence
@@ -227,6 +240,7 @@ When the task is complete:
 - Do: make small, tested, well-documented, and reviewable changes.
 - Do: consult the [Code Quality framework](https://raw.githubusercontent.com/meza/agent-docs/refs/heads/main/CodeQuality.md) for quality decisions.
 - Do: prefer dependency-first solutions that minimize owned complexity, especially before introducing new helpers or abstractions.
+- Do: add and run integration tests for any new or changed user behavior.
 - Do: ask one essential clarifying question when blocked.
 - Do: record deviations and workarounds in the Delivery Note.
 - Never: commit secrets or perform unlawful/privacy-violating actions.

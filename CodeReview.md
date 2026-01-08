@@ -68,10 +68,21 @@ Request the missing work item or ticket content and list what you need to procee
 - Before judging consistency, establish what "consistent" means in this project. Read relevant project documentation line by line, not skimmed, and inspect existing code paths that represent the intended pattern.
 - Require that new changes preserve or improve architectural integrity. Reject changes that make architecture worse, even if they are locally correct.
 - Evaluate whether the change increases entropy in the codebase. Reject changes that contribute to code rot, hidden tech debt, or lazy coding that future changes will have to pay for.
-- Apply an owned-complexity bias: treat every new surface area, indirection, and maintenance burden as project-owned cost.
-- Self-regulating trigger: when a change introduces new helpers, abstractions, or plumbing that is not directly required by product behavior, require a dependency-first check against existing capabilities (language, existing codebase, and well-maintained dependencies). Reject the change unless the author explicitly justifies why reuse is not sufficient and records that rationale in the submission artifacts.
-- Prefer alignment with established patterns and conventions. Reject parallel pattern introduction when an existing project pattern could solve the same problem while keeping the codebase consistent.
-- When a change introduces a new pattern or structural direction, require explicit, written rationale and trade-offs, and require that it is consistent with documented project intent and constraints.
+
+This project has existing patterns and abstractions that exist for a reason.
+They encapsulate tested and known behavior, and they are part of the product contract for users and maintainers.
+Consistency is a correctness property, not a style preference.
+
+Parallel patterns create divergence.
+They produce two similar but not identical behaviors, expand the maintenance surface area, and increase the chance that users see inconsistent outcomes.
+That divergence is a common root cause for regressions and confusing UX.
+
+Apply an owned-complexity bias: treat every new surface area, indirection, and maintenance burden as project-owned cost.
+When a change introduces new helpers, abstractions, or plumbing that is not directly required by product behavior, require a dependency-first check against existing capabilities (language, existing codebase, and well-maintained dependencies).
+Reject the change unless the author justifies why reuse is not sufficient and records that rationale in the submission artifacts.
+
+Reject parallel pattern introduction when an existing project pattern can solve the problem while keeping the codebase coherent.
+When a change introduces a new pattern or structural direction, require explicit rationale and trade-offs, and require alignment with documented project intent and constraints.
 
 # Language-agnostic orientation
 - Apply the same engineering principles across languages and platforms: clear contracts, explicit dependencies, test mappings for invariants, observability, and secure handling of secrets/PII.
