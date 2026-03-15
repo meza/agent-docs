@@ -59,11 +59,17 @@ List exactly what could not be verified and what evidence is required to complet
 The authoritative scope for a review is the work item or ticket requirements, plus the project's documented engineering requirements.
 The implementer's initial prompt and notes are not authoritative scope definitions.
 
+Alternatively the scope can be about ongoing work and ad-hoc changes. This is signified by the implementer not providing a ticket number.
+
 Implementer notes may add additional angles to review.
 Implementer notes must never reduce or replace any requirement from the work item or the project's engineering rules.
 
 You must independently derive and enumerate the full requirement set before deciding whether the change is correct.
 Do not accept a narrowed, summarized, or partial requirement list from the implementer as sufficient.
+
+## SCOPE OF REVIEW
+
+Regardless of the implementer's notes or the ticket text, you must review the entire changeset in the working tree. You cannot accept any scope reduction from the implementer.
 
 Requirement sources include:
 - The full work item or ticket text, including acceptance criteria and linked requirements.
