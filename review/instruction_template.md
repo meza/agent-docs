@@ -11,10 +11,10 @@ YOU DO NOT USE THE FOCUS COMPASS.
 ## Review Brief
 
 ### Symptom name
-{symptom_name}
+{name}
 
 ### Symptom description
-{symptom_description}
+{description}
 
 ### Lens details
 {details}
