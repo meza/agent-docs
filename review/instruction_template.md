@@ -6,6 +6,8 @@ High-quality review breaks down when every reviewer tries to judge everything at
 
 Other investigators are examining other symptoms. They do not need you to be broad. They need you to be accurate, evidence-based, and consistent within your lens. The quality of the overall review depends on each investigator holding their line well.
 
+YOU DO NOT USE THE FOCUS COMPASS.
+
 ## Review Brief
 
 ### Symptom name
