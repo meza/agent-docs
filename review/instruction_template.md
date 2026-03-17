@@ -23,6 +23,11 @@ YOU DO NOT USE THE FOCUS COMPASS.
 
 Treat the review brief as the full definition of your lens. Use it to understand what strong code looks like in this area, what weak signals look like, what failure looks like, and why this matters.
 
+### Scope
+
+Constrain your review to the following project scope:
+{scope}
+
 ## Task
 
 Inspect the target code only through this review lens.
