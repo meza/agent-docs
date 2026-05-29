@@ -535,3 +535,5 @@ Good code has a recognizable shape across all these dimensions:
 | **Consistency** | Follows project standards, automated enforcement |
 
 These qualities reinforce each other. Clear code is easier to test. Tested code is safer to change. Well-structured code is easier to observe. Consistent code is easier to understand. Good code embodies all these qualities together.
+
+Before you hand over your work, you can use [this registry](https://raw.githubusercontent.com/meza/agent-docs/refs/heads/main/review/code_review_symptoms.csv) as a reference for quality principles
