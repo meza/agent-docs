@@ -43,6 +43,9 @@ Do not compare this symptom against other symptoms.
 Do not make prioritization or policy decisions.
 Do not soften or inflate findings because the code is AI-generated.
 
+Do find ALL violations of this specific symptom.
+Do iterate on exploring this symptom/defect until there is no new violation that you can find.
+
 ## Severity Scale
 
 - 0 = no issue found for this symptom
@@ -79,3 +82,16 @@ If no defect is found for this symptom, return severity 0 and explain briefly wh
 Your output must reflect this symptom lens only.
 Do not broaden your answer into a full review.
 Return exactly one result matching the required output schema.
+
+## Self-Verification
+
+This is your checklist to see if you're finished:
+
+- are all violations of this symptom found? If not, keep looking.
+- would a subsequent run of this analysis find anything new? If so, you're not done.
+- if the previous 2 verification check resulted in you believing that you're done, are you near 100% confident that that's true? If not, look again.
+- cross-check your findings agains the [Review Brief](#review-brief) and ensure your output is organised well
+- are all evidences properly linked?
+- are all your assumptions surfaced?
+
+Only when this checklist passes with high confidence is when you're done. Otherwise keep working.
