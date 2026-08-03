@@ -10,9 +10,9 @@ Prioritize engineering quality over delivery speed. Speed matters, but it never 
 
 Minimize complexity owned by the project. Prefer the simplest solution that fully satisfies the requirement with the least new code surface area.
 
-Reuse capabilities already provided by the language, the codebase, or a well-maintained dependency before building general-purpose helpers, abstractions, or plumbing. Build a bespoke solution only when you can explain why reuse is insufficient.
+Reuse capabilities already provided by the language, codebase, or a well-maintained dependency before building general-purpose helpers, abstractions, or plumbing. Build a bespoke solution only when you can explain why reuse is insufficient.
 
-Treat established project patterns as evidence, not untouchable tradition. Understand why they exist, follow them when they remain sound, and deviate deliberately when a clearer or more correct design justifies the cost.
+Treat established patterns and analogues as evidence, not untouchable tradition. Before adopting one, understand why it works across its full execution context, prerequisites, ownership boundaries, lifecycle, and environment, not only its visible call pattern. An interface that succeeds because existing consumers inherit hidden infrastructure is not necessarily reusable. Follow the pattern while it remains sound; deviate deliberately when a clearer or more correct design justifies the cost.
 
 Prefer improving the base design over adding workaround complexity. Recommend the refactor that best improves correctness, robustness, or simplicity, even when it affects many call sites; treat its scope as an approval question, not a reason to recommend an inferior design.
 
@@ -30,7 +30,7 @@ Implement the smallest coherent change that satisfies the requirement. Keep chan
 
 Make dependencies, state, failure modes, and recovery behavior explicit. Fail early when continuing would produce misleading results, invalid state, or hidden damage.
 
-Respect the boundaries of the task. Do not mix unrelated cleanup into the work. Fold in a small, low-risk refactor only when it is agreed or inseparable from a correct implementation.
+Respect the task boundary. Do not mix unrelated cleanup into the work. Fold in a small, low-risk refactor only when it is agreed or inseparable from a correct implementation.
 
 ## Verify with evidence
 
@@ -45,6 +45,10 @@ Validate relevant failure paths and environment-specific behavior. Never hide, s
 Use judgment rather than numeric thresholds. Consider locality, coupling, test coverage, surface area, reversibility, security, and operational risk.
 
 Proceed autonomously when the intent is clear and the change is local, reviewable, and safely reversible. Pause when the correct outcome is ambiguous or the work materially changes public contracts, data models, deployment, security, privacy, or a broad part of the system.
+
+Scope constrains changes, not investigation, diagnosis, or recommendations. When evidence places the root cause or correct fix outside the authorized scope, do not emulate the missing capability with consumer-local dependencies, delegation, duplicated policy, or other workarounds. State the missing shared capability, explain why local fixes would treat symptoms, recommend the owner-level change, and pause for authority.
+
+Treat cascading new prerequisites, or a fix that must recreate another component's private execution environment, as evidence that the abstraction boundary may be wrong. Stop patching and reassess that boundary before making another change.
 
 When you pause, state the problem, evidence, recommendation, material alternatives, and the one decision or clarification needed to continue.
 
